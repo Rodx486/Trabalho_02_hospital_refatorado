@@ -8,6 +8,7 @@ public class ResponsavelTecnico extends Funcionario {
     public void liberarProcedimento(Procedimento p) {
         if(this.equals(p.getResponsavelTecnico())) {
             p.setLiberadoResponsavelTecnico(true);
+            System.out.println("Procedimento liberado com sucesso pelo Responsável Técnico " + getNome() + "!");
         } else {
             System.out.println("Apenas o responsável técnico do procedimento pode liberá-lo.");
         }

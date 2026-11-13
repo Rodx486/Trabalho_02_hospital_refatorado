@@ -14,6 +14,7 @@ public class ProcedimentoCirurgico extends Procedimento {
     public void darAltaMedica(Medico medicoResponsavel) {
         if (medicoResponsavel.equals(getMedicoResponsavel())) {
             this.altaMedica = true;
+            System.out.println("Alta médica concedida com sucesso pelo(a) " + medicoResponsavel.getNome() + "!");
         } else {
             System.out.println("Apenas o médico responsável pelo procedimento pode dar alta médica.");
         }
@@ -26,6 +27,11 @@ public class ProcedimentoCirurgico extends Procedimento {
             System.out.println("Paciente não pode sair sem alta médica.");
         }   
         
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " | Alta Médica: " + this.altaMedica;
     }
 
 }
