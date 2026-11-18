@@ -1,17 +1,20 @@
 import java.util.Scanner;
+
 /**
-     * Exibe o menu de opções para o usuário e retorna a opção escolhida.
-     *
-     * @return A opção escolhida pelo usuário.
-     */
+ * Exibe as opções disponíveis para interação com o sistema hospitalar.
+ */
 public class menu {
     
 
+    /**
+     * Exibe as opções do sistema e lê a opção escolhida pelo usuário.
+     * @return número da opção escolhida pelo usuário.
+     */
     public int exibirMenu() {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("\n=== Menu de Opções ===");
+        System.out.println("\n=== HOSPITAL ===");
         System.out.println("1. Agendar Procedimento");
         System.out.println("2. Consultar Registros (Paciente)");
         System.out.println("3. Liberar Procedimento (Responsável Técnico)");

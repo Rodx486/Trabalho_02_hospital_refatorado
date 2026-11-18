@@ -1,8 +1,15 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Inicia a aplicação e coordena o menu e os fluxos do sistema hospitalar.
+ */
 public class Main {
 
+    /**
+     * Inicializa um novo objeto desta classe.
+     * @param args argumentos recebidos pela aplicação ao iniciar.
+     */
     public static void main(String[] args) {
 
         // Aqui será guardados todos os pacientes cadastrados.
@@ -61,7 +68,8 @@ public class Main {
                     }
                     if (agendadorLogado != null) {
                         try {
-                            Procedimento procedimento = Procedimento.cadastrarProcedimento(scanner, pacientes, funcionarios);
+                            Procedimento procedimento = Procedimento.cadastrarProcedimento(scanner, pacientes,
+                                    funcionarios);
                             agendadorLogado.agendarProcedimento(procedimentosAgendados, procedimento, senha);
                         } catch (IllegalArgumentException e) {
                             System.out.println("Erro ao agendar: " + e.getMessage());
@@ -72,13 +80,25 @@ public class Main {
                     break;
                 case 2:
                     Scanner scannerConsulta = new Scanner(System.in);
-                    System.out.println("\n=== Qual paciente deseja consultar? ===");
-                    for (int i = 0; i < pacientes.size(); i++) {
-                        System.out.println(i + " - " + pacientes.get(i).getNome());
+                    System.out.println("\n=== Informe o CPF ===");
+                    System.out.print("CPF : ");
+
+                    String cpfInformado = scannerConsulta.nextLine();
+
+                    Paciente pacienteEncontrado = null;
+
+                    for (Paciente paciente : pacientes) {
+                        if (paciente.getCpf().equals(cpfInformado)) {
+                            pacienteEncontrado = paciente;
+                            break;
+                        }
                     }
-                    System.out.print("Digite o número do paciente: ");
-                    int idxPaciente = scannerConsulta.nextInt();
-                    pacientes.get(idxPaciente).consultarRegistros(procedimentosAgendados);
+                    if (pacienteEncontrado != null) {
+                        pacienteEncontrado.consultarRegistros(procedimentosAgendados);
+                    } else {
+                        System.out.println("Paciente não encontrado.");
+                    }
+
                     break;
                 case 3:
                     if (procedimentosAgendados.isEmpty()) {
@@ -92,7 +112,14 @@ public class Main {
                     }
                     System.out.print("Número do procedimento: ");
                     int idxProcRT = scannerRT.nextInt();
-                    ResponsavelTecnico rt = (ResponsavelTecnico) funcionarios.get(6);
+
+                    ResponsavelTecnico rt = Funcionario.buscarPorTipo(funcionarios, ResponsavelTecnico.class);
+
+                    if (rt == null) {
+                        System.out.println("Nenhum responsável técnico cadastrado.");
+                        break;
+                    }
+
                     rt.liberarProcedimento(procedimentosAgendados.get(idxProcRT));
                     break;
                 case 4:
@@ -119,7 +146,8 @@ public class Main {
                     System.out.print("Número do médico: ");
                     int idxMedAlta = scannerAlta.nextInt();
 
-                    ProcedimentoCirurgico cirurgiaAlta = (ProcedimentoCirurgico) procedimentosAgendados.get(idxCirurgia);
+                    ProcedimentoCirurgico cirurgiaAlta = (ProcedimentoCirurgico) procedimentosAgendados
+                            .get(idxCirurgia);
                     Medico medicoAlta = (Medico) funcionarios.get(idxMedAlta);
                     cirurgiaAlta.darAltaMedica(medicoAlta);
                     break;
@@ -148,7 +176,6 @@ public class Main {
                     System.out.println("Opção inválida. Tente novamente.");
             }
         } while (opcao != 6);
- 
 
     }
 
